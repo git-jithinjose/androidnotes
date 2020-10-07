@@ -1,0 +1,69 @@
+dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                DisplayMetrics screenMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(screenMetrics);
+                int screenHeight = screenMetrics.heightPixels;
+                int screenWidth = screenMetrics.widthPixels;
+                // In a previous life I used this method to get handles to the positive and negative buttons
+                // of a dialog in order to change their Typeface. Good ol' days.
+
+                BottomSheetDialog d = (BottomSheetDialog) dialog;
+
+
+
+                // This is gotten directly from the source of BottomSheetDialog
+                // in the wrapInBottomSheet() method
+
+                FrameLayout bottomSheet = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+
+                BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                //behavior.setPeekHeight(screenHeight);
+                //behavior.setHideable(false);
+
+                // Right here!
+                // BottomSheetBehavior.from(bottomSheet)
+                //      .setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
+        
+        
+        
+        
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState == RecyclerView.SCROLL_STATE_IDLE) {
+
+                    View centerView = snapHelper.findSnapView(mLayoutManager);
+                    int pos = mLayoutManager.getPosition(centerView);
+
+
+                    int pos2 =mLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    int pos3=mLayoutManager.findLastCompletelyVisibleItemPosition();
+
+
+                    Toast.makeText(context, "You have selected 1: " + pos, Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(context, "You have selected 2: " + pos2, Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(context, "You have selected 3: " + pos3, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                    int positionView = ((LinearLayoutManager) Objects.requireNonNull(recyclerView.getLayoutManager())).findFirstVisibleItemPosition();
+                    Toast.makeText(MainNewsDetailsSlide.this, dataArrayList.get(positionView).getTitle(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
